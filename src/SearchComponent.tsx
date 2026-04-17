@@ -5,6 +5,10 @@ interface SearchResult {
   data: any[]; // Replace 'any' with a more specific type if you know the structure
 }
 
+const API_BASE_URL =
+  process.env.REACT_APP_API_BASE_URL?.replace(/\/$/, "") ||
+  "http://localhost:3000";
+
 const SearchComponent: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
@@ -14,7 +18,7 @@ const SearchComponent: React.FC = () => {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:3000/search?q=${encodeURIComponent(searchQuery)}`
+        `${API_BASE_URL}/search?q=${encodeURIComponent(searchQuery)}`
       );
       const data = await response.json();
       setResults(data);
